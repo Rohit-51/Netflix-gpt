@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import { Link, Links } from 'react-router-dom';
 import { validate } from '../utils/validate';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import {auth} from '../utils/firebase';
+
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -19,6 +22,19 @@ export default function Login() {
 
         // Clear previous errors
         setError(null);
+
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            // ...
+          })
+          .catch((error) => {
+            console.log("error", error);
+            setError(error?.message || "An error occurred");
+            const errorCode = error.code;
+            const errorMessage = error.message;
+          });
 
     }
 

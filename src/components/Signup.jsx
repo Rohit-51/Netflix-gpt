@@ -1,7 +1,46 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../utils/firebase';
+import { validate} from '../utils/validate';
+
 
 export default function SignUp() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Form validation
+    const validationError = validate(email, password, name, true);
+    console.log(validationError)
+    if (validationError) {
+        setError(validationError);
+        return;
+    }
+    console.log("No validation errors - ", validationError);
+    // Clear previous errors
+    setError(null);
+
+    // Handle sign-up logic here
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed up 
+      const user = userCredential.user;
+      console.log("user created: ", user);
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      setError(`${errorCode}: ${errorMessage}`);
+      // ..
+    });
+
+
+  }
   return (
     <div className="relative h-screen w-full bg-[url('https://assets.nflxext.com/ffe/siteui/vlv3/a92ac6d9-e542-40d5-9bb1-bb7291e4de86/web/IN-en-20251117-TRIFECTA-perspective_9fe28c81-2209-4e08-b8bd-98cfa9f97a8f_small.jpg')] bg-cover bg-center">
       
@@ -17,26 +56,33 @@ export default function SignUp() {
 
       {/* Sign-Up Form */}
       <div className="relative z-10 flex justify-center items-center h-full px-3">
-        <form className="bg-black/70 text-white rounded-lg px-10 py-10 max-w-md w-full">
+        <form 
+        className="bg-black/70 text-white rounded-lg px-10 py-10 max-w-md w-full"
+        onSubmit={handleSubmit}
+        >
           <h1 className="text-3xl font-bold mb-6">Create an account</h1>
 
           <input
             type="text"
+            onChange={(e) => setName(e.target.value)}
             placeholder="Full Name"
             className="w-full p-3 mb-4 bg-[#333] rounded text-sm outline-none"
           />
 
           <input
             type="email"
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
             className="w-full p-3 mb-4 bg-[#333] rounded text-sm outline-none"
           />
 
           <input
             type="password"
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
             className="w-full p-3 mb-4 bg-[#333] rounded text-sm outline-none"
           />
+          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
           <button
             className="w-full bg-red-600 hover:bg-red-700 transition p-3 rounded font-semibold mt-2"

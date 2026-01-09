@@ -1,8 +1,18 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
+import Header from '../layout/Header.jsx'
 
 const DefaultLayout = () => {
+  
+
   return (
-    <div className='bg-['>DefaultLayout</div>
+    <div className="app-layout">
+      {/* <Sidebar /> */}
+      <div className="content">
+        {/* <Header /> */}
+        <Outlet />
+      </div>
+    </div>
   )
 }
 
