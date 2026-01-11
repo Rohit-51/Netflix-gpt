@@ -9,7 +9,7 @@ const DefaultLayout = () => {
     <div className="app-layout">
       {/* <Sidebar /> */}
       <div className="content">
-        {/* <Header /> */}
+        <Header />
         <Outlet />
       </div>
     </div>

@@ -8,21 +8,20 @@ const AuthListener = ({children}) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/auth.user
-                const {uid, email} = user;
-                dispatch(setUser({uid, email}));
-                // ...
-            } else {
-                // User is signed out
-                dispatch(clearUser());
-                // ...
-            }
-            dispatch(setAuthChecked());
-        });
-    }, [dispatch])
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+            dispatch(setUser({
+            uid: user.uid,
+            email: user.email
+            }))
+        } else {
+            dispatch(clearUser())
+        }
+        dispatch(setAuthChecked())
+        })
+
+        return () => unsubscribe()
+    }, [dispatch]);
     
   return children;
 }
