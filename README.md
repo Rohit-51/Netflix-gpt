@@ -16,3 +16,10 @@ Note: This will impact Vite dev & build performances.
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+
+I have added the login and signup pages on this app and using the firebase as backend.
+Using the firebase API's to Login and Signup.
+Added the validation on Login and Signup pages.
+Added the redux for the state management.
+Added the protected routes functionality.
