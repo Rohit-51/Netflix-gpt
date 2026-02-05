@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../utils/firebase';
 import { validate} from '../utils/validate';
 
@@ -11,7 +11,7 @@ export default function SignUp() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Form validation
     const validationError = validate(email, password, name, true);
@@ -25,19 +25,27 @@ export default function SignUp() {
     setError(null);
 
     // Handle sign-up logic here
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed up 
+    try {
+      // Create user
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
       const user = userCredential.user;
       console.log("user created: ", user);
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      setError(`${errorCode}: ${errorMessage}`);
-      // ..
-    });
+
+      // Update display name
+      await updateProfile(user, {
+        displayName: name,
+      });
+
+      await user.reload();
+      console.log("Display name updated:", name);
+    } catch (error) {
+      setError(`${error.code}: ${error.message}`);
+    }
 
 
   }

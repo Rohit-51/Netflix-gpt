@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth}  from '../utils/firebase'
+import {logo} from '../utils/constants'
 
 const Header = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const Header = () => {
       <div>
         <img
           className="w-32 z-10"
-          src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Logonetflix.png"
+          src={logo}
           alt="Netflix Logo"
         />
       </div>

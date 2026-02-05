@@ -11,8 +11,9 @@ const AuthListener = ({children}) => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
             dispatch(setUser({
-            uid: user.uid,
-            email: user.email
+                uid: user.uid,
+                email: user.email,
+                displayName: user.displayName
             }))
         } else {
             dispatch(clearUser())

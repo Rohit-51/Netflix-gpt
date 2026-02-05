@@ -23,3 +23,5 @@ Using the firebase API's to Login and Signup.
 Added the validation on Login and Signup pages.
 Added the redux for the state management.
 Added the protected routes functionality.
+Create a constant file for hardcoded things like logo url, photo url etc.
+Create account in tbmd and use API's from there

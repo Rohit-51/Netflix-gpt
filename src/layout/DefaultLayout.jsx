@@ -8,7 +8,7 @@ const DefaultLayout = () => {
   return (
     <div className="app-layout">
       {/* <Sidebar /> */}
-      <div className="content">
+      <div className="content relative">
         <Header />
         <Outlet />
       </div>
